@@ -26,7 +26,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static("."));
+app.use(express.static("Frontend"));
 
 import authRoutes from "./routes/auth.js";
 app.use("/api/auth", authRoutes);
@@ -607,4 +607,7 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`Server chạy tại port ${PORT}`);
+});
+app.get("/", (req, res) => {
+  res.sendFile("Login.html", { root: "Frontend" });
 });
