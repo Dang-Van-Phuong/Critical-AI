@@ -359,12 +359,16 @@ if (!debate) {
     // Nếu đã đủ 3 lượt → bắt buộc hoàn thành
 if (debate.roleAttempts[role] >= 3) {
   debate.roleStatus[role] = "completed";
+
+  await Debate.findByIdAndUpdate(debateId, {
+    roleStatus: debate.roleStatus
+  });
+
   return res.json({
     forceComplete: true,
     attempts: debate.roleAttempts[role]
   });
-}
-
+  }
 
     debate.roleAttempts[role] += 1;
 

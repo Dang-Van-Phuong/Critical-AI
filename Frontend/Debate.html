@@ -706,11 +706,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   console.log("ROLE KEY:", roleKey);
 
-  let debateId = localStorage.getItem("currentDebateId");
-
+const debateId = localStorage.getItem("currentDebateId");
 if (!debateId) {
-  debateId = "debate_" + Date.now();
-  localStorage.setItem("currentDebateId", debateId);
+  window.location.href = "DefineIssue.html";
+  return;
 }
 
   if (!roleKey) {
@@ -888,25 +887,22 @@ async function completeRole() {
 
   const debateId = localStorage.getItem("currentDebateId");
   const roleKey = localStorage.getItem("currentRole");
+  const token = localStorage.getItem("token");
 
-  const response = await fetch("/mindmap-debate",{
+  await fetch("/complete-role", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + token
     },
     body: JSON.stringify({
-      debateId,
+      debateId: debateId,
       role: roleKey
     })
   });
 
-  let completedRoles = JSON.parse(localStorage.getItem("completedRoles")) || {};
-  completedRoles[roleKey] = true;
-  localStorage.setItem("completedRoles", JSON.stringify(completedRoles));
-
   window.location.href = "Roles.html";
 }
-
 
 async function analyzeTree(){
 
